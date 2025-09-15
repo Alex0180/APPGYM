@@ -12,7 +12,7 @@ class CreateClientesTable extends Migration
             $table->id();
             $table->string('nombres');
             $table->string('apellidos');
-            $table->integer('edad');
+            $table->integer('edad')->nullable();
             $table->string('celular');
             $table->string('correo')->nullable();
             $table->string('plan');
