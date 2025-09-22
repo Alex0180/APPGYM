@@ -28,12 +28,13 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 60px;
-            height: 60px;
+            width: 50px; /* Reducido para mejor lectura */
+            height: 50px; /* Reducido para mejor lectura */
             transform: translate(-50%, -50%);
             border-radius: 50%;
             background: #fff;
             padding: 5px;
+            border: 2px solid #28a745; /* Mejor contraste */
         }
         .message-box {
             background: #ffffff;
@@ -100,11 +101,12 @@
                 }
                 $qrContentUtf8 = mb_convert_encoding($qrContent, 'UTF-8', 'auto');
 
+                // Mejoras para mejor lectura del QR
                 $qrSvg = base64_encode(QrCode::format('svg')
                     ->encoding('UTF-8')
                     ->size(300)
-                    ->margin(1)
-                    ->errorCorrection('H')
+                    ->margin(2) // Margen ligeramente aumentado
+                    ->errorCorrection('H') // Máxima corrección de errores
                     ->generate($qrContentUtf8));
 
                 // Mensaje WhatsApp
@@ -158,7 +160,7 @@
     </div>
 </div>
 
-<!-- Script exportar QR -->
+<!-- Script exportar QR mejorado -->
 <script>
 document.getElementById('downloadBtn').addEventListener('click', function() {
     const qrImg = document.getElementById('qrImage');
@@ -170,24 +172,46 @@ document.getElementById('downloadBtn').addEventListener('click', function() {
     canvas.height = size;
     const ctx = canvas.getContext('2d');
 
+    // Fondo blanco para mejor contraste
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, size, size);
+
     const qr = new Image();
     qr.src = qrImg.src;
     qr.onload = function() {
         ctx.drawImage(qr, 0, 0, size, size);
 
         const logo = new Image();
+        logo.crossOrigin = "Anonymous"; // Para evitar problemas con CORS
         logo.src = logoImg.src;
         logo.onload = function() {
-            const logoSize = 70;
+            const logoSize = 50; // Reducido para mejor lectura del QR
+            // Fondo blanco para el logo
             ctx.beginPath();
-            ctx.arc(size/2, size/2, logoSize/2+6, 0, Math.PI*2, true);
+            ctx.arc(size/2, size/2, logoSize/2+4, 0, Math.PI*2, true);
             ctx.fillStyle = "#fff";
             ctx.fill();
+            // Borde para mejor contraste
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, logoSize/2+4, 0, Math.PI*2, true);
+            ctx.strokeStyle = "#28a745";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            // Dibujar el logo
             ctx.drawImage(logo, size/2 - logoSize/2, size/2 - logoSize/2, logoSize, logoSize);
 
+            // Mejorar la calidad de la imagen
             const link = document.createElement('a');
             link.download = "QR-{{ $cliente->nombres }}.png";
-            link.href = canvas.toDataURL("image/png");
+            link.href = canvas.toDataURL("image/png", 1.0); // Máxima calidad
+            link.click();
+        };
+        
+        // En caso de error con el logo, solo exportar el QR
+        logo.onerror = function() {
+            const link = document.createElement('a');
+            link.download = "QR-{{ $cliente->nombres }}.png";
+            link.href = canvas.toDataURL("image/png", 1.0);
             link.click();
         };
     };

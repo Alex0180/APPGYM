@@ -27,6 +27,16 @@
                style="border-radius: 50px; font-weight: 600; padding: 0.8rem 1.5rem; font-family: 'Poppins', sans-serif;">
                 <i class="bi bi-people-fill"></i> Lista de Clientes
             </a>
+            <a href="{{ route('lectores') }}" 
+               class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2" 
+               style="border-radius: 50px; font-weight: 600; padding: 0.8rem 1.5rem; font-family: 'Poppins', sans-serif;">
+                <i class="bi bi-qr-code-scan"></i> Lectores QR y Facial
+            </a>
+            <a href="{{ route('historial') }}" 
+               class="btn btn-info btn-lg d-flex align-items-center justify-content-center gap-2" 
+               style="border-radius: 50px; font-weight: 600; padding: 0.8rem 1.5rem; font-family: 'Poppins', sans-serif;">
+                <i class="bi bi-clock-history"></i> Historial
+            </a>
         </div>
 
         <form method="POST" action="{{ route('logout') }}">
@@ -61,6 +71,16 @@
         color: #fff;
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .btn-primary:hover {
+        background-color: #004085;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,64,133,0.4);
+    }
+    .btn-info:hover {
+        background-color: #17a2b8;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(23,162,184,0.4);
     }
 </style>
 @endsection

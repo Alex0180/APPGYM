@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\WhatsAppController;
+use App\Http\Controllers\AccesoController;
 
 // Rutas de autenticación
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -32,3 +33,69 @@ Route::get('/clientes/{id}/whatsapp', [WhatsAppController::class, 'enviar'])->na
 Route::get('/clientes/{id}/descargar-qr', [WhatsAppController::class, 'descargarQR'])->name('clientes.descargar-qr');
 Route::match(['get', 'post'], '/clientes/{id}/enviar-con-qr', [WhatsAppController::class, 'enviarConQR'])->name('clientes.enviar-con-qr');
 
+
+
+//pagina lectores
+
+Route::get('/lectores', function() {
+    return view('clients.lectores'); // <-- ruta correcta según la carpeta
+})->name('lectores');
+
+
+// Página de Lector QR (temporal)
+Route::get('/lector-qr', function() {
+    return view('clients.lector_qr'); // crear esta vista
+})->name('lector_qr');
+
+// Página de Lector Facial (temporal)
+Route::get('/lector-facial', function() {
+    return view('clients.lector_facial'); // crear esta vista
+})->name('lector_facial');
+
+
+//pagina de verificacion facial 
+
+
+Route::get('/lector-facial', function() {
+    return view('clients.lector_facial');
+})->name('lector_facial');  // ← Aquí está el nombre correcto
+
+// Ruta para verificar el rostro
+
+Route::post('/verificar-facial', [AccesoController::class, 'verificar'])->name('verificar.facial');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// pagina historial 
+
+
+
+Route::get('/historial', function() {
+    return view('clients.historial'); // La vista aún la creamos
+})->name('historial');
